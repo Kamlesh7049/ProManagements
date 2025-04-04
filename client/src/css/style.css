@@ -1,0 +1,70 @@
+body {
+    font-family: Garamond, serif;
+    margin: 0px;
+    padding: 0px;
+  }
+
+
+
+#create {
+    padding: 10px;
+}
+#create1{
+    padding: 10px;
+}
+#create:hover{
+ color: aqua;
+    border-radius: 0px;
+}
+
+#create1:hover{
+    color: aqua;
+    border-radius: 0px;
+}
+
+
+
+
+
+
+
+
+/* Assign task */
+
+
+
+
+@media (min-width: 1024px) {
+    .modal-dialog {
+      width: 50% !important; 
+      max-width: none !important;
+    }
+  }
+  
+  
+  @media (max-width: 1024px) {
+    .modal-dialog {
+      width: 70% !important; 
+      max-width: none !important;
+    }
+  }
+  
+  /* For smaller screens like mobile */
+  @media (max-width: 576px) {
+    .modal-dialog {
+      width: 90% !important; 
+      max-width: none !important;
+    }
+  }
+
+    @media (max-width: 576px) {
+    .modal-dialog {
+      width: 90% !important; 
+      max-width: none !important;
+    }
+  }
+  
+
+
+
+ 
