@@ -26,8 +26,8 @@ const CreateUser = () => {
 
     const handleSubmit = async () => {
         try {
-            let imageUrl = ""; // Default image URL blank rakha hai
-            
+            let imageUrl = "";
+
             if (uploadImage) {
                 const formData = new FormData();
                 formData.append("file", uploadImage);
@@ -61,48 +61,63 @@ const CreateUser = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-            <Row className="w-100">
-                <Col xs={12} sm={10} md={8} lg={6} className="mx-auto">
+        <Container 
+            fluid 
+            className="d-flex justify-content-center align-items-center" 
+            style={{ minHeight: "100vh", backgroundColor: "#f5f8fa", padding: "40px 0" }}
+        >
+            <Row className="w-100 justify-content-center">
+                <Col xs={12} sm={10} md={8} lg={6}>
                     <Card 
-                        className="shadow p-4"
+                        className="p-4 shadow"
                         style={{
-                            borderRadius: "12px",
-                            border: "1px solid #4ca1af",
-                            background: "#fff"
+                            borderRadius: "16px",
+                            backgroundColor: "#ffffff",
+                            border: "none",
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
                         }}
                     >
-                        <h2 className="text-center mb-3">Create New Employee</h2>
+                        <h3 className="text-center mb-4" style={{ fontWeight: "600", color: "#333" }}>
+                            Create New Employee
+                        </h3>
+
                         <Form>
                             <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">Employee Name</Form.Label>
+                                <Form.Label style={{ fontWeight: "500" }}>Employee Name</Form.Label>
                                 <InputGroup>
-                                    <Form.Control 
-                                        type="text" 
-                                        placeholder="Enter Employee Name" 
-                                        name="name" 
-                                        value={input.name} 
-                                        onChange={handleInput} 
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter Employee Name"
+                                        name="name"
+                                        value={input.name}
+                                        onChange={handleInput}
+                                        style={{ borderRadius: "8px" }}
                                     />
                                 </InputGroup>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">Employee Email</Form.Label>
+                                <Form.Label style={{ fontWeight: "500" }}>Employee Email</Form.Label>
                                 <InputGroup>
-                                    <Form.Control 
-                                        type="email" 
-                                        placeholder="Enter Employee Email" 
-                                        name="email" 
-                                        value={input.email} 
-                                        onChange={handleInput} 
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter Employee Email"
+                                        name="email"
+                                        value={input.email}
+                                        onChange={handleInput}
+                                        style={{ borderRadius: "8px" }}
                                     />
                                 </InputGroup>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">Designation</Form.Label>
-                                <Form.Select name="designation" value={input.designation} onChange={handleInput}>
+                                <Form.Label style={{ fontWeight: "500" }}>Designation</Form.Label>
+                                <Form.Select
+                                    name="designation"
+                                    value={input.designation}
+                                    onChange={handleInput}
+                                    style={{ borderRadius: "8px" }}
+                                >
                                     <option value="">Choose Designation</option>
                                     <option value="Frontend">Frontend</option>
                                     <option value="Backend">Backend</option>
@@ -112,12 +127,28 @@ const CreateUser = () => {
                                 </Form.Select>
                             </Form.Group>
 
-                            <Form.Group className="mb-3">
-                                <Form.Label>Upload Profile Picture</Form.Label>
-                                <Form.Control type="file" onChange={handleImage} />
+                            <Form.Group className="mb-4">
+                                <Form.Label style={{ fontWeight: "500" }}>Upload Profile Picture</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    onChange={handleImage}
+                                    style={{ borderRadius: "8px" }}
+                                />
                             </Form.Group>
 
-                            <Button variant="primary" className="w-100" onClick={handleSubmit}>
+                            <Button
+                                variant="primary"
+                                className="w-100"
+                                style={{
+                                    padding: "10px",
+                                    fontWeight: "500",
+                                    borderRadius: "10px",
+                                    background: "linear-gradient(to right, #4ca1af, #c4e0e5)",
+                                    border: "none",
+                                    color: "#fff"
+                                }}
+                                onClick={handleSubmit}
+                            >
                                 Create Employee
                             </Button>
                         </Form>

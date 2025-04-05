@@ -8,6 +8,7 @@ import UserDashBoard from "./pages/UserDashBoard";
 import UserTaskDisplay from "./pages/UserTaskDisplay";
 import UserTaskReport from "./pages/UserTaskReport";
 import ResetPassword from "./pages/ResetPassword";
+import Footer from "./component/Footer";
 const App=()=>{
     return(
         <>
@@ -30,6 +31,7 @@ const App=()=>{
              </Route>
           </Routes>
           </BrowserRouter>
+          <Footer/>
         </>
     )
 }

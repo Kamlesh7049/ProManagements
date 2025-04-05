@@ -1,81 +1,142 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
-import "../pages/Admin.css";
 
 const DashBoard = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
 
   useEffect(() => {
     const handleResize = () => {
       setSidebarOpen(window.innerWidth > 768);
     };
-
-    handleResize();
     window.addEventListener("resize", handleResize);
-    
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+    setSidebarOpen((prev) => !prev);
   };
 
   return (
-    <div className="dashboard-wrapper">
-      <button 
-        className="sidebar-toggle"
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      {/* Sidebar Toggle Button (Hamburger) */}
+      <button
         onClick={toggleSidebar}
-        aria-label="Toggle Sidebar"
+        style={{
+          backgroundColor: "#007bff",
+          border: "none",
+          color: "#fff",
+          padding: "10px",
+          fontSize: "18px",
+          display: "inline-block",
+          position: "fixed",
+          top: "10px",
+          left: "15px",
+          zIndex: 1001,
+          borderRadius: "6px",
+        }}
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        ☰
       </button>
 
-      <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-        <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
-          <nav className="navbar">
-            <div className="nav-container">
-              <ul className="nav-links">
-                <li>
-                  <Link 
-                    to="createuser" 
-                    className="nav-link"
+      {/* Layout Wrapper */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          height: "100vh",
+          marginTop: "0px",
+        }}
+      >
+        {/* Sidebar */}
+        {isSidebarOpen && (
+          <aside
+            style={{
+              width: "250px",
+              backgroundColor: "#343a40",
+              color: "#fff",
+              paddingTop: "60px",
+              position: "fixed",
+              height: "100%",
+              top: 0,
+              left: 0,
+              overflowY: "auto",
+              transition: "all 0.3s ease",
+              zIndex: 1000,
+            }}
+          >
+            <nav>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li style={{ padding: "15px" }}>
+                  <Link
+                    to="createuser"
+                    style={{ color: "#fff", textDecoration: "none" }}
                     onClick={() => window.innerWidth <= 768 && setSidebarOpen(false)}
                   >
-                    Create User
+                    ➕ Create User
                   </Link>
                 </li>
-                <li>
-                  <Link 
-                    to="assigntask" 
-                    className="nav-link"
+                <li style={{ padding: "15px" }}>
+                  <Link
+                    to="assigntask"
+                    style={{ color: "#fff", textDecoration: "none" }}
                     onClick={() => window.innerWidth <= 768 && setSidebarOpen(false)}
                   >
-                    Assign Task
+                    📌 Assign Task
                   </Link>
                 </li>
-                <li>
-                  <Link 
-                    to="usertaskreport" 
-                    className="nav-link"
+                <li style={{ padding: "15px" }}>
+                  <Link
+                    to="usertaskreport"
+                    style={{ color: "#fff", textDecoration: "none" }}
                     onClick={() => window.innerWidth <= 768 && setSidebarOpen(false)}
                   >
-                    Task Report
+                    📋 Task Report
                   </Link>
                 </li>
               </ul>
-            </div>
-          </nav>
-        </aside>
-        
-        <main className="content-area">
+            </nav>
+          </aside>
+        )}
+
+        {/* Main Content Area */}
+        <main
+          style={{
+            flex: 1,
+            marginLeft: isSidebarOpen && window.innerWidth > 768 ? "250px" : "0px",
+            padding: "20px",
+            paddingTop: "60px",
+            overflowY: "auto",
+            width: "100%",
+            boxSizing: "border-box",
+            transition: "margin-left 0.3s ease",
+          }}
+        >
           <Outlet />
         </main>
       </div>
-      
+
+      {/* Overlay for mobile sidebar close */}
       {isSidebarOpen && window.innerWidth <= 768 && (
-        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}></div>
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            zIndex: 999,
+          }}
+        ></div>
       )}
     </div>
   );

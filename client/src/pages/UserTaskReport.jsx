@@ -1,104 +1,151 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Table from 'react-bootstrap/Table';
+import Table from "react-bootstrap/Table";
 import rightimg from "../img/right.png";
 import pendingimg from "../img/pending.jpg";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import { message } from "antd";
 import WEB_URL from "../config";
-const UserTaskReport=()=>{
-    const [mydata,setMydata]=useState([]);
-    const loadData=async()=>{
-        let api=`${WEB_URL}/admin/usertaskdisplay`
+
+const UserTaskReport = () => {
+    const [mydata, setMydata] = useState([]);
+
+    const loadData = async () => {
+        const api = `${WEB_URL}/admin/usertaskdisplay`;
         try {
-            const response=await axios.get(api);
+            const response = await axios.get(api);
             setMydata(response.data);
-            console.log(response.data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
-    useEffect(()=>{
+    useEffect(() => {
         loadData();
-    },[])
+    }, []);
 
-  const reassignTask=async(taskid)=>{
-    try {
-        let api=`${WEB_URL}/admin/reasigntask`;
-        const response=await axios.post(api,{taskid:taskid});
-        message.success(response.data.msg)
-        loadData();
-    } catch (error) {
-        console.log(error)
-    }
-  }
+    const reassignTask = async (taskid) => {
+        try {
+            const api = `${WEB_URL}/admin/reasigntask`;
+            const response = await axios.post(api, { taskid });
+            message.success(response.data.msg);
+            loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-    let sno=0;
-    const ans=mydata.map((key)=>{
-        sno++;
-        return(
-            <>
-            <tr>
-                <td>{key.empreport=="submited"?<img src={rightimg} height="10px" />:<img src={pendingimg} height="10px"/>}</td>
-                <td>{sno}</td>
-                <td>{key.empid.name}</td>
-                <td>{key.empid.email}</td>
-                <td>{key.empid.designation}</td>
-                <td>{key.title}</td>
-                <td>{key.description}</td>
-                <td>{key.duration}</td>
-                <td>{key.taskstatus}</td>
-                <td>{key.empreport}</td>
-                <td>
-                 {key.empreport=="submited"?(
-                    <>
-                      <span style={{color:"green", fontWeight:"bold"}}>{key.empreport} </span>
-                    </>
-                 ):(
-                    <>
-                      <span style={{color:"red", fontWeight:"bold"}}>{key.empreport} </span>
-                    </>
-                 )} </td>
+    return (
+        <div
+            style={{
+                padding: "20px",
+                backgroundColor: "#f5f7fa",
+                minHeight: "100vh",
+                boxSizing: "border-box"
+            }}
+        >
+            <h3
+                style={{
+                    textAlign: "center",
+                    marginBottom: "20px",
+                    fontWeight: "600",
+                    color: "#333"
+                }}
+            >
+                User Task Report
+            </h3>
 
+            <div
+                style={{
+                    overflowX: "auto",
+                    backgroundColor: "#fff",
+                    borderRadius: "10px",
+                    padding: "10px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    width: "100%",
+                    boxSizing: "border-box"
+                }}
+            >
+                <Table
+                    striped
+                    bordered
+                    hover
+                    responsive
+                    size="sm"
+                    style={{
+                        fontSize: "14px",
+                        minWidth: "900px",
+                        borderCollapse: "collapse"
+                    }}
+                >
+                    <thead style={{ backgroundColor: "#cfe2ff" }}>
+                        <tr>
+                            <th style={{ padding: "8px" }}></th>
+                            <th style={{ padding: "8px" }}>#</th>
+                            <th style={{ padding: "8px" }}>Emp Name</th>
+                            <th style={{ padding: "8px" }}>Email</th>
+                            <th style={{ padding: "8px" }}>Designation</th>
+                            <th style={{ padding: "8px" }}>Title</th>
+                            <th style={{ padding: "8px" }}>Description</th>
+                            <th style={{ padding: "8px" }}>Duration</th>
+                            <th style={{ padding: "8px" }}>Status</th>
+                            <th style={{ padding: "8px" }}>Report</th>
+                            <th style={{ padding: "8px" }}>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {mydata.map((item, index) => (
+                            <tr key={item._id}>
+                                <td style={{ textAlign: "center" }}>
+                                    <img
+                                        src={item.empreport === "submited" ? rightimg : pendingimg}
+                                        alt="status"
+                                        style={{ height: "14px" }}
+                                    />
+                                </td>
+                                <td style={{ padding: "8px" }}>{index + 1}</td>
+                                <td style={{ padding: "8px" }}>{item.empid?.name}</td>
+                                <td style={{ padding: "8px" }}>{item.empid?.email}</td>
+                                <td style={{ padding: "8px" }}>{item.empid?.designation}</td>
+                                <td style={{ padding: "8px" }}>{item.title}</td>
+                                <td style={{ padding: "8px" }}>{item.description}</td>
+                                <td style={{ padding: "8px" }}>{item.duration}</td>
+                                <td style={{ padding: "8px" }}>{item.taskstatus}</td>
+                                <td style={{ padding: "8px" }}>
+                                    <span
+                                        style={{
+                                            fontWeight: "bold",
+                                            color:
+                                                item.empreport === "submited"
+                                                    ? "green"
+                                                    : "red"
+                                        }}
+                                    >
+                                        {item.empreport}
+                                    </span>
+                                </td>
+                                <td style={{ padding: "8px" }}>
+                                    <Button
+                                        variant="outline-primary"
+                                        size="sm"
+                                        onClick={() => reassignTask(item._id)}
+                                        style={{
+                                            fontSize: "12px",
+                                            padding: "4px 8px",
+                                            borderRadius: "6px",
+                                            fontWeight: "500"
+                                        }}
+                                    >
+                                        Reassign
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+        </div>
+    );
+};
 
-
-             <td>
-             <Button variant="primary" size="sm"
-                  onClick={()=>{reassignTask(key._id)}}
-                 style={{fontSize:"10px"}}>ReAssing</Button>
-
-             </td>
-            </tr>
-            </>
-        )
-    })
-  
-    return(
-      <>
-      <div className="table-responsive" style={{overflow:"scroll"}}>
-          <Table striped bordered hover size="sm">
-              <thead className="table-primary tablesize">
-                  <tr>
-                      <th></th>
-                      <th>#</th>
-                      <th>Emp Name</th>
-                      <th>Email</th>
-                      <th>Designation</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Duration</th>
-                      <th>Status</th>
-                      <th>Report</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {ans}
-              </tbody>
-          </Table>
-      </div>
-      </>
-  );
-}
 export default UserTaskReport;
